@@ -1,17 +1,17 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import React from "react";
 import satori from "satori";
 import fetch from "node-fetch";
 
 import sharp from "sharp";
-// import { ZozoCard } from "../components/ZozoCard";
+import { ZozoCard } from "../components/ZozoCard.js";
+import { createElement } from "react";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const fontData = await fetch(
     "https://fonts.gstatic.com/s/notoserifjp/v21/xn7mYHs72GKoTvER4Gn3b5eMXNg.otf"
   ).then((res) => res.arrayBuffer());
 
-  const svg = await satori(<div>hoge</div>, {
+  const svg = await satori(createElement(ZozoCard), {
     width: 400,
     height: 400,
     fonts: [
@@ -27,4 +27,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   console.log(png);
 
   return res.status(200).setHeader("Content-Type", "image/png").send(png);
+  // return res.status(200);
 }
